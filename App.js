@@ -2,6 +2,7 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { Ionicons } from "@expo/vector-icons";
 
 /**
  * Screens
@@ -21,23 +22,63 @@ import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 
 const switchNavigator = createSwitchNavigator({
   homeStack: createBottomTabNavigator({
-    Home: createStackNavigator({
-      TopProducts: HomeScreen,
-      Search: SearchScreen,
-      ProductDetail: ProductDetailScreen,
-    }),
-    Offer: OfferScreen,
-    Cart: createStackNavigator({
-      Shoping: CartScreen,
-      Order: OrderScreen,
-      Payment: PaymentScreen,
-    }),
-    Account: AccountScreen,
+    Home: {
+      screen: createStackNavigator({
+        TopProducts: HomeScreen,
+        Search: SearchScreen,
+        ProductDetail: ProductDetailScreen,
+      }),
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          return <Ionicons name={"ios-home"} size={25} color={tintColor} />;
+        },
+      },
+    },
+    Offer: {
+      screen: OfferScreen,
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          return (
+            <Ionicons name={"ios-local-offer"} size={25} color={tintColor} />
+          );
+        },
+      },
+    },
+    Cart: {
+      screen: createStackNavigator({
+        Shoping: CartScreen,
+        Order: OrderScreen,
+        Payment: PaymentScreen,
+      }),
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          const iconName = `ios-information-circle${focused ? "" : "-outline"}`;
+          return <Ionicons name={iconName} size={25} color={tintColor} />;
+        },
+      },
+    },
+    Account: {
+      screen: AccountScreen,
+      navigationOptions: {
+        tabBarIcon: ({ focused, tintColor }) => {
+          const iconName = `account-star`;
+          return <Ionicons name={iconName} size={25} color={tintColor} />;
+        },
+      },
+    },
   }),
-  loginStack: createStackNavigator({
-    Signup: SignupScreen,
-    Signin: SigninScreen,
-  }),
+  loginStack: {
+    screen: createStackNavigator({
+      Signup: SignupScreen,
+      Signin: SigninScreen,
+    }),
+    navigationOptions: {
+      tabBarIcon: ({ focused, tintColor }) => {
+        const iconName = `ios-information-circle${focused ? "" : "-outline"}`;
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
+      },
+    },
+  },
 });
 
 const App = createAppContainer(switchNavigator);
@@ -51,3 +92,15 @@ export default () => {
     />
   );
 };
+
+/*
+const iconimg = focused  ? 
+              require('../active.png')  : 
+              require('../inactive.png')
+        return (
+            <Image 
+                source={iconimg}
+                style={styles.tabIcon}
+            />
+        )
+        */

@@ -6,7 +6,7 @@ import BurgerIcon from "../../images/burger.jpg";
 import PizzaIcon from "../../images/pizza.jpg";
 import CoffeeIcon from "../../images/coffee.jpeg";
 import LunchIcon from "../../images/lunch.jpg";
-import FoodCard from "../Cards/FoodCart";
+import FoodCard from "../Cards/FoodCard";
 
 const categories = [
   { id: 1, name: "Offers", image: OfferIcon },

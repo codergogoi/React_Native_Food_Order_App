@@ -7,6 +7,7 @@ import TopFoodList from "../components/Listview/ProductListView";
 import { navigate } from "../utils/NavigationRef";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import HambarIcon from "../images/hambar.png";
+import { Ionicons } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
   /**
@@ -73,6 +74,10 @@ const styles = StyleSheet.create({
 HomeScreen.navigationOptions = () => {
   return {
     header: null,
+    tabBarLabel: "MyHome",
+    tabBarIcon: ({ tintColor }) => (
+      <Ionicons name="md-checkmark-circle" size={32} color="green" />
+    ),
   };
 };
 

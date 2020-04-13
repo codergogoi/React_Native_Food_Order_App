@@ -13,6 +13,10 @@ const SearchScreen = ({ navigation }) => {
     navigation.goBack();
   };
 
+  const onTapItem = (item) => {
+    console.log(`Selected Item: ${item}`);
+  };
+
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <View>
@@ -22,7 +26,11 @@ const SearchScreen = ({ navigation }) => {
           </TouchableOpacity>
           <SearchBar />
         </View>
-        <FoodListView size={"small"} />
+        <FoodListView
+          style={{ flex: 1 }}
+          size={"small"}
+          didSelectItem={onTapItem}
+        />
       </View>
     </SafeAreaView>
   );
