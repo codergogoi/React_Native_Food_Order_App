@@ -2,12 +2,14 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { Image, StyleSheet } from "react-native";
+
+import { Provider as UserProvider } from "./src/context/userAccessContext";
 
 /**
  * Screens
  */
-
+import AuthCheckScreen from "./src/screens/AuthCheckScreen";
 import AccountScreen from "./src/screens/AccountScreen";
 import CartScreen from "./src/screens/CartScreen";
 import HomeScreen from "./src/screens/HomeScreen";
@@ -21,6 +23,7 @@ import PaymentScreen from "./src/screens/PaymentScreen";
 import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 
 const switchNavigator = createSwitchNavigator({
+  authCheck: AuthCheckScreen,
   homeStack: createBottomTabNavigator({
     Home: {
       screen: createStackNavigator({
@@ -29,18 +32,30 @@ const switchNavigator = createSwitchNavigator({
         ProductDetail: ProductDetailScreen,
       }),
       navigationOptions: {
+        tabBarOptions: {
+          activeTintColor: "#f15b5d",
+        },
         tabBarIcon: ({ focused, tintColor }) => {
-          return <Ionicons name={"ios-home"} size={25} color={tintColor} />;
+          let icon =
+            focused == true
+              ? require("./src/images/home_icon.png")
+              : require("./src/images/home_n_icon.png");
+          return <Image source={icon} style={styles.tabIcon} />;
         },
       },
     },
     Offer: {
       screen: OfferScreen,
       navigationOptions: {
+        tabBarOptions: {
+          activeTintColor: "#f15b5d",
+        },
         tabBarIcon: ({ focused, tintColor }) => {
-          return (
-            <Ionicons name={"ios-local-offer"} size={25} color={tintColor} />
-          );
+          let icon =
+            focused == true
+              ? require("./src/images/offer_icon.png")
+              : require("./src/images/offer_n_icon.png");
+          return <Image source={icon} style={styles.tabIcon} />;
         },
       },
     },
@@ -51,18 +66,30 @@ const switchNavigator = createSwitchNavigator({
         Payment: PaymentScreen,
       }),
       navigationOptions: {
+        tabBarOptions: {
+          activeTintColor: "#f15b5d",
+        },
         tabBarIcon: ({ focused, tintColor }) => {
-          const iconName = `ios-information-circle${focused ? "" : "-outline"}`;
-          return <Ionicons name={iconName} size={25} color={tintColor} />;
+          let icon =
+            focused == true
+              ? require("./src/images/cart_icon.png")
+              : require("./src/images/cart_n_icon.png");
+          return <Image source={icon} style={styles.tabIcon} />;
         },
       },
     },
     Account: {
       screen: AccountScreen,
       navigationOptions: {
+        tabBarOptions: {
+          activeTintColor: "#f15b5d",
+        },
         tabBarIcon: ({ focused, tintColor }) => {
-          const iconName = `account-star`;
-          return <Ionicons name={iconName} size={25} color={tintColor} />;
+          let img =
+            focused == true
+              ? require("./src/images/account_icon.png")
+              : require("./src/images/account_n_icon.png");
+          return <Image source={img} style={styles.tabIcon} />;
         },
       },
     },
@@ -74,10 +101,20 @@ const switchNavigator = createSwitchNavigator({
     }),
     navigationOptions: {
       tabBarIcon: ({ focused, tintColor }) => {
-        const iconName = `ios-information-circle${focused ? "" : "-outline"}`;
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        let icon =
+          focused == true
+            ? require("./src/images/account_icon.png")
+            : require("./src/images/account_n_icon.png");
+        return <Image source={icon} style={styles.tabIcon} />;
       },
     },
+  },
+});
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    width: 30,
+    height: 30,
   },
 });
 
@@ -85,22 +122,12 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <App
-      ref={(navigator) => {
-        setNavigator(navigator);
-      }}
-    />
+    <UserProvider>
+      <App
+        ref={(navigator) => {
+          setNavigator(navigator);
+        }}
+      />
+    </UserProvider>
   );
 };
-
-/*
-const iconimg = focused  ? 
-              require('../active.png')  : 
-              require('../inactive.png')
-        return (
-            <Image 
-                source={iconimg}
-                style={styles.tabIcon}
-            />
-        )
-        */

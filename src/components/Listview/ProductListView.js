@@ -8,28 +8,32 @@ import CoffeeIcon from "../../images/coffee.jpeg";
 import LunchIcon from "../../images/lunch.jpg";
 import FoodCard from "../Cards/FoodCard";
 
-const categories = [
-  { id: 1, name: "Offers", image: OfferIcon },
-  { id: 2, name: "Burgers", image: BurgerIcon },
-  { id: 3, name: "Pizzas", image: PizzaIcon },
-  { id: 4, name: "Coffee", image: CoffeeIcon },
-  { id: 5, name: "Meals", image: LunchIcon },
-];
+const ProductListView = ({
+  products,
+  size,
+  horizontal,
+  didSelectItem,
+  disable,
+}) => {
+  const onSelectItem = ({ item }) => {
+    didSelectItem(item);
+  };
 
-const ProductListView = ({ size, horizontal, didSelectItem }) => {
   return (
     <FlatList
       horizontal={horizontal ? true : false}
       showsHorizontalScrollIndicator={false}
-      data={categories}
+      showsVerticalScrollIndicator={false}
+      data={products}
       renderItem={(item) => (
         <FoodCard
           size={size}
           data={item}
-          onSelect={(item) => didSelectItem(item)}
+          disable={disable}
+          onSelect={onSelectItem}
         />
       )}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item._id}
     />
   );
 };

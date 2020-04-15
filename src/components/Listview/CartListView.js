@@ -34,7 +34,7 @@ const CartListView = ({ didChangeItems }) => {
           onRemoveItem={onRemoveItem}
         />
       )}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item._id}
     />
   );
 };

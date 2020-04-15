@@ -1,9 +1,13 @@
 import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Button } from "react-native-elements";
 
 import CartListView from "../components/Listview/CartListView";
+import AppButton from "../components/Buttons/AppButton";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import OrderIcon from "../images/orders.png";
 
 const CartScreen = ({ navigation }) => {
   const onTapItem = (item) => {
@@ -25,6 +29,9 @@ const CartScreen = ({ navigation }) => {
     <SafeAreaView style={styles.contentView} forceInset={{ top: "always" }}>
       <View style={styles.titleView}>
         <Text h4> My Cart</Text>
+        <TouchableOpacity style={{ alignItems: "center" }}>
+          <Image source={OrderIcon} style={styles.imgIcon} />
+        </TouchableOpacity>
       </View>
       <View style={styles.listView}>
         <CartListView didChangeItems={didChangeItems} />
@@ -34,14 +41,7 @@ const CartScreen = ({ navigation }) => {
           <Text style={{ fontSize: 18 }}> Total</Text>
           <Text style={{ fontSize: 18, fontWeight: "600" }}> $200.00</Text>
         </View>
-        <Button
-          type="clear"
-          titleStyle={styles.titleStyle}
-          style={styles.orderButton}
-          title="Order Now"
-          loading={isLoading}
-          onPress={didTapOrderNow}
-        ></Button>
+        <AppButton title="Order Now" onTap={didTapOrderNow} />
       </View>
     </SafeAreaView>
   );
@@ -55,8 +55,11 @@ const styles = StyleSheet.create({
   },
   titleView: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+    flexDirection: "row",
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   listView: {
     flex: 9,
@@ -66,8 +69,8 @@ const styles = StyleSheet.create({
   },
 
   imgIcon: {
-    width: 40,
-    height: 50,
+    width: 60,
+    height: 60,
   },
   searchOptions: {
     display: "flex",
@@ -81,19 +84,7 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: "green",
   },
-  orderButton: {
-    width: 300,
-    height: 50,
-    backgroundColor: "#FD5A5A",
-    alignSelf: "center",
-    borderRadius: 30,
-  },
-  titleStyle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "white",
-    marginTop: 3,
-  },
+
   amountDetails: {
     flexDirection: "row",
     justifyContent: "space-between",

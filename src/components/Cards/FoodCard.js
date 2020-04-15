@@ -8,17 +8,20 @@ import {
 } from "react-native";
 
 import { Text, Rating } from "react-native-elements";
+import AppButton from "../Buttons/AppButton";
 
 const deviceWidth = Math.round(Dimensions.get("window").width);
 
-const FoodCard = ({ size, data, onSelect }) => {
+const FoodCard = ({ size, data, onSelect, disable = false }) => {
   const { name, image, description, price } = data.item;
+
+  // {"_id":"5e9174d968dffe0b8ac55819","name":"Burger","description":"Extra cheesy Burger for you with extra combo","category":"burger","price":2.5,"image":"https://media1.s-nbcnews.com/j/newscms/2019_21/2870431/190524-classic-american-cheeseburger-ew-207p_d9270c5c545b30ea094084c7f2342eb4.fit-2000w.jpg","__v":0}
 
   const mediumCard = () => {
     return (
       <View style={styles.root}>
-        <TouchableOpacity onPress={(data) => onSelect(data)}>
-          <Image style={styles.foodImage} source={image} />
+        <TouchableOpacity onPress={() => onSelect(data)}>
+          <Image style={styles.foodImage} source={{ uri: image }} />
         </TouchableOpacity>
         <Text style={styles.title}>{name}</Text>
       </View>
@@ -29,9 +32,10 @@ const FoodCard = ({ size, data, onSelect }) => {
     return (
       <TouchableOpacity
         style={smallStyles.smallCard}
-        onPress={(data) => onSelect(data)}
+        onPress={() => onSelect(data)}
+        disabled={disable}
       >
-        <Image style={smallStyles.foodImageSmall} source={image} />
+        <Image style={smallStyles.foodImageSmall} source={{ uri: image }} />
         <View style={smallStyles.productInfo}>
           <Text style={smallStyles.title}>{name}</Text>
           <Text style={smallStyles.resturentTitle}> Western Foods</Text>
@@ -42,7 +46,11 @@ const FoodCard = ({ size, data, onSelect }) => {
             ratingCount={5}
             imageSize={20}
           />
-          <Text style={smallStyles.price}>$ 2.99</Text>
+          <Text style={smallStyles.price}>{price}</Text>
+        </View>
+        <View style={smallStyles.shopView}>
+          <Text style={smallStyles.productSize}>Large</Text>
+          <AppButton title="Buy" width={100} />
         </View>
       </TouchableOpacity>
     );
@@ -53,8 +61,6 @@ const FoodCard = ({ size, data, onSelect }) => {
       return smallCard();
     case "medium": // medium card
       return mediumCard();
-    case "big": // details card
-      break;
     default:
       return mediumCard();
   }
@@ -72,8 +78,8 @@ const styles = StyleSheet.create({
   },
   foodImage: {
     borderRadius: 20,
-    height: 250,
-    width: deviceWidth - 40,
+    height: 220,
+    width: deviceWidth - 30,
     backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
@@ -142,6 +148,16 @@ const smallStyles = StyleSheet.create({
     flex: 1,
     padding: 5,
     justifyContent: "space-around",
+  },
+  shopView: {
+    justifyContent: "space-between",
+    padding: 10,
+    alignItems: "center",
+  },
+  productSize: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#848484",
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Button } from "react-native-elements";

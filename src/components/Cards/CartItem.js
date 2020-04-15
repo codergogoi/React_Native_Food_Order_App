@@ -11,6 +11,8 @@ import { Text, Badge, Button } from "react-native-elements";
 
 const deviceWidth = Math.round(Dimensions.get("window").width);
 
+import ButtonAddRemove from "../Buttons/AddRemoveButton";
+
 const CartItem = ({ data, onAddItem, onRemoveItem }) => {
   const { name, image, description, price } = data.item;
 
@@ -26,11 +28,15 @@ const CartItem = ({ data, onAddItem, onRemoveItem }) => {
       <View style={styles.priceView}>
         <Text style={styles.price}>$ 2.99</Text>
         <View style={styles.countView}>
-          <Button title="-" type="outline" onPress={() => onAddItem(data)} />
-          <Text h4 style={{ alignSelf: "center", margin: 5 }}>
+          <ButtonAddRemove title="-" onPress={() => onAddItem(data)} />
+
+          <Text
+            h4
+            style={{ alignSelf: "center", margin: 5, fontWeight: "600" }}
+          >
             2
           </Text>
-          <Button title="+" type="outline" onPress={() => onRemoveItem(data)} />
+          <ButtonAddRemove title="+" onPress={() => onRemoveItem(data)} />
         </View>
       </View>
     </View>
@@ -119,6 +125,15 @@ const styles = StyleSheet.create({
   },
   badge: {
     backgroundColor: "green",
+  },
+  //Button
+  btnAddRemove: {
+    borderColor: "#f15b5d",
+    borderRadius: 5,
+    borderWidth: 0.5,
+  },
+  btnTitleStyle: {
+    color: "#f15b5d",
   },
 });
 

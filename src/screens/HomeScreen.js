@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import SearchBar from "../components/SearchBar";
@@ -8,8 +8,23 @@ import { navigate } from "../utils/NavigationRef";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import HambarIcon from "../images/hambar.png";
 import { Ionicons } from "@expo/vector-icons";
+import { Text } from "react-native-elements";
+
+//Context
+import { Context as UserContext } from "../context/userAccessContext";
 
 const HomeScreen = ({ navigation }) => {
+  const { state, onCheckAvailability, onCheckLogin } = useContext(UserContext);
+
+  const { products } = state;
+
+  /**
+   * LifeCycle Methoda
+   */
+  useEffect(() => {
+    onCheckAvailability();
+  }, []);
+
   /**
    * USER Actions
    */
@@ -18,11 +33,13 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const goToSearchPage = () => {
-    navigate("Search", null);
+    if (products) {
+      navigate("Search", products);
+    }
   };
 
   const didSelectItem = (item) => {
-    console.log(`Selected ${item}`);
+    navigate("ProductDetail", item);
   };
 
   return (
@@ -36,12 +53,24 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <TopCategory style={styles.topCategory} />
+          <View style={styles.choiceView}>
+            <Text h4 style={styles.choiceText}>
+              Popular Choice
+            </Text>
+          </View>
           <TopFoodList
+            products={products}
             size={"medium"}
             horizontal={true}
             didSelectItem={didSelectItem}
           />
+          <View style={styles.choiceView}>
+            <Text h4 style={styles.choiceText}>
+              30 Minutes Foods
+            </Text>
+          </View>
           <TopFoodList
+            products={products}
             size={"medium"}
             horizontal={true}
             didSelectItem={didSelectItem}
@@ -68,6 +97,18 @@ const styles = StyleSheet.create({
   topCategory: {
     height: 100,
     backgroundColor: "green",
+  },
+  choiceView: {
+    height: 40,
+    marginLeft: 10,
+    marginRight: 30,
+    borderBottomColor: "rgba(0,0,0,0.2)",
+    borderBottomWidth: 0.2,
+    justifyContent: "flex-start",
+  },
+  choiceText: {
+    fontWeight: "700",
+    color: "#f15b5d",
   },
 });
 

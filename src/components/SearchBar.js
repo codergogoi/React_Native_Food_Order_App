@@ -1,15 +1,7 @@
 import React from "react";
 import { navigate } from "../utils/NavigationRef";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Image, TextInput } from "react-native";
 
-import backIcon from "../images/back_arrow.png";
 import SearchIcon from "../images/search.png";
 
 const SearchBar = ({ didTouch, isHome }) => {
@@ -52,6 +44,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingLeft: 10,
     paddingRight: 10,
+    borderColor: "#E5E5E5",
+    borderWidth: 2,
   },
 
   searchIcon: {
