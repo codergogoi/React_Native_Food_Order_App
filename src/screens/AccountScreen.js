@@ -3,7 +3,12 @@ import { View, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Button } from "react-native-elements";
 
+import { Context as UserAccessConext } from '../context/userAccessContext';
+
 const AccountScreen = () => {
+
+  const { } = useContext(UserAccessConext);
+
   return (
     <SafeAreaView style={styles.contentView} forceInset={{ top: "always" }}>
       <View style={styles.titleView}>
