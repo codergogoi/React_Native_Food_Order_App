@@ -1,13 +1,31 @@
-import React, { useContext, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Input } from "react-native-elements";
-import AppButton from "../components/Buttons/AppButton";
-import { Context as UserContext } from "../context/userAccessContext";
-import UserLogin from "../components/UserLogin";
+import { Context as UserContext } from "../../dataStore/userAccessContext";
+import UserLogin from "../../components/InputFields/UserLogin";
 
 const SigninScreen = () => {
-  const { onSignin } = useContext(UserContext);
+  const { state, onSignin, onDissmiss } = useContext(UserContext);
+
+  const { msg } = state;
+
+  useEffect(() => {
+    showAlert();
+  }, [msg]);
+
+  const showAlert = () => {
+    if (msg !== null) {
+      Alert.alert(
+        "Login",
+        `${msg}`,
+        [{ text: "Okay", onPress: () => onDissmiss }],
+        {
+          cancelable: false,
+        }
+      );
+    }
+  };
 
   return (
     <SafeAreaView style={styles.contentView} forceInset={{ top: "always" }}>

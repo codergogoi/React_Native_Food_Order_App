@@ -3,13 +3,13 @@ import { View, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Button } from "react-native-elements";
 
-import CartListView from "../components/Listview/CartListView";
-import AppButton from "../components/Buttons/AppButton";
+import CartListView from "../../components/Listview/CartListView";
+import AppButton from "../../components/Buttons/AppButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import OrderIcon from "../images/orders.png";
+import OrderIcon from "../../images/orders.png";
 
-const OrderScreen = ({ navigation }) => {
+const PaymentScreen = ({ navigation }) => {
   const onTapItem = (item) => {
     console.log(`Selected Item: ${item}`);
   };
@@ -93,10 +93,10 @@ const styles = StyleSheet.create({
   },
 });
 
-OrderScreen.navigationOptions = () => {
+PaymentScreen.navigationOptions = () => {
   return {
     header: null,
   };
 };
 
-export default OrderScreen;
+export default PaymentScreen;

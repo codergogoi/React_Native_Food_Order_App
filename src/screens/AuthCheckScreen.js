@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { navigate } from "../utils/NavigationRef";
-import { Context as UserAccessContext } from "../context/userAccessContext";
+import { Context as UserAccessContext } from "../dataStore/userAccessContext";
 
 const AuthCheckScreen = () => {
   const { onCheckLogin } = useContext(UserAccessContext);

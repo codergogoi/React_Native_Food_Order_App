@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text } from "react-native-elements";
 
-import FoodListView from "../components/Listview/ProductListView";
+import FoodListView from "../../components/Listview/ProductListView";
 
 const OfferScreen = ({ navigation }) => {
   const onTapItem = (item) => {

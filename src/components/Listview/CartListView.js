@@ -3,32 +3,14 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 
 import CartItem from "../Cards/CartItem";
 
-//cart information from API
-const categories = [
-  { id: 1, name: "Offers" },
-  { id: 2, name: "Burgers" },
-  { id: 3, name: "Pizzas" },
-  { id: 4, name: "Coffee" },
-  { id: 5, name: "Meals" },
-];
-
-const CartListView = ({ didChangeItems }) => {
-  const onAddItem = (item) => {
-    console.log(`Added: ${item}`);
-    didChangeItems(item);
-  };
-
-  const onRemoveItem = (item) => {
-    console.log(`removed: ${item}`);
-    didChangeItems(item);
-  };
-
+const CartListView = ({ onAddItem, onRemoveItem, cartItems }) => {
   return (
     <FlatList
       showsHorizontalScrollIndicator={false}
-      data={categories}
+      data={cartItems}
       renderItem={(item) => (
         <CartItem
+          key={`${item._id}`}
           data={item}
           onAddItem={onAddItem}
           onRemoveItem={onRemoveItem}

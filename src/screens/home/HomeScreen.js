@@ -1,27 +1,31 @@
 import React, { useContext, useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
-import SearchBar from "../components/SearchBar";
-import TopCategory from "../components/TopCategoryList";
-import TopFoodList from "../components/Listview/ProductListView";
-import { navigate } from "../utils/NavigationRef";
+import SearchBar from "../../components/InputFields/SearchBar";
+import TopCategory from "../../components/TopCategoryList";
+import TopFoodList from "../../components/Listview/ProductListView";
+import { navigate } from "../../utils/NavigationRef";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
-import HambarIcon from "../images/hambar.png";
+import HambarIcon from "../../images/hambar.png";
 import { Ionicons } from "@expo/vector-icons";
 import { Text } from "react-native-elements";
 
 //Context
-import { Context as UserContext } from "../context/userAccessContext";
+import { Context as UserContext } from "../../dataStore/userAccessContext";
+import TopRestaurants from "../foods/TopRestaurants";
 
 const HomeScreen = ({ navigation }) => {
-  const { state, onCheckAvailability, onCheckLogin } = useContext(UserContext);
+  const { state, onCheckAvailability, fetchTopRestaurants } = useContext(
+    UserContext
+  );
 
-  const { products } = state;
+  const { foods, restaurants } = state;
 
   /**
    * LifeCycle Methoda
    */
   useEffect(() => {
+    fetchTopRestaurants();
     onCheckAvailability();
   }, []);
 
@@ -33,13 +37,15 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const goToSearchPage = () => {
-    if (products) {
-      navigate("Search", products);
-    }
+    navigate("Search");
   };
 
   const didSelectItem = (item) => {
     navigate("ProductDetail", item);
+  };
+
+  const didSelectRestaurant = (item) => {
+    navigate("RestaurantDetail", item);
   };
 
   return (
@@ -55,26 +61,51 @@ const HomeScreen = ({ navigation }) => {
           <TopCategory style={styles.topCategory} />
           <View style={styles.choiceView}>
             <Text h4 style={styles.choiceText}>
-              Popular Choice
+              Top Restaurants
             </Text>
           </View>
-          <TopFoodList
-            products={products}
-            size={"medium"}
-            horizontal={true}
-            didSelectItem={didSelectItem}
-          />
+          {restaurants == undefined ? (
+            <View
+              style={{
+                height: 240,
+                width: "95%",
+                borderRadius: 20,
+                backgroundColor: "#D6D6D6",
+                alignSelf: "center",
+              }}
+            />
+          ) : (
+            <TopRestaurants
+              restaurants={restaurants}
+              size={"medium"}
+              horizontal={true}
+              didSelectItem={didSelectRestaurant}
+            />
+          )}
+
           <View style={styles.choiceView}>
             <Text h4 style={styles.choiceText}>
               30 Minutes Foods
             </Text>
           </View>
-          <TopFoodList
-            products={products}
-            size={"medium"}
-            horizontal={true}
-            didSelectItem={didSelectItem}
-          />
+          {foods == undefined ? (
+            <View
+              style={{
+                height: 240,
+                width: "95%",
+                borderRadius: 20,
+                backgroundColor: "#D6D6D6",
+                alignSelf: "center",
+              }}
+            />
+          ) : (
+            <TopFoodList
+              foods={foods}
+              size={"medium"}
+              horizontal={true}
+              didSelectItem={didSelectItem}
+            />
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -96,7 +127,7 @@ const styles = StyleSheet.create({
   },
   topCategory: {
     height: 100,
-    backgroundColor: "green",
+    backgroundColor: "#CACACA",
   },
   choiceView: {
     height: 40,

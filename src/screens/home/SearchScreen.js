@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { SafeAreaView } from "react-navigation";
-import SearchBar from "../components/SearchBar";
-import BackIcon from "../images/back_arrow.png";
+import SearchBar from "../../components/InputFields/SearchBar";
+import BackIcon from "../../images/back_arrow.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { navigate } from "../utils/NavigationRef";
+import { navigate } from "../../utils/NavigationRef";
+import FoodListView from "../../components/Listview/ProductListView";
 
-import FoodListView from "../components/Listview/ProductListView";
+import { Context as UserContext } from "../../dataStore/userAccessContext";
 
 const SearchScreen = ({ navigation }) => {
-  const { state } = navigation;
+  const { state, onCheckAvailability } = useContext(UserContext);
 
-  const { params } = state;
+  const { foods, restaurants } = state;
 
-  console.log(JSON.stringify(params));
+  const [isEditing, setIsEditing] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   const didTapBack = () => {
     navigation.goBack();
@@ -23,6 +25,19 @@ const SearchScreen = ({ navigation }) => {
     navigate("ProductDetail", item);
   };
 
+  useEffect(() => {
+    onCheckAvailability({ searchAll: true });
+  }, []);
+
+  const onTextChange = (text) => {
+    setIsEditing(true);
+    setKeyword(text);
+  };
+
+  const onEndEditing = () => {
+    setIsEditing(false);
+  };
+
   return (
     <SafeAreaView style={styles.contentView} forceInset={{ top: "always" }}>
       <View style={styles.titleView}>
@@ -30,15 +45,23 @@ const SearchScreen = ({ navigation }) => {
           <TouchableOpacity onPress={() => didTapBack()}>
             <Image style={styles.imgIcon} source={BackIcon} />
           </TouchableOpacity>
-          <SearchBar />
+          <SearchBar onTextChange={onTextChange} />
         </View>
       </View>
       <View style={styles.listView}>
         <FoodListView
-          products={params}
+          foods={
+            isEditing
+              ? foods.filter((item) => {
+                  return item.name.includes(keyword);
+                })
+              : foods
+          }
           style={{ flex: 1 }}
           size={"small"}
-          didSelectItem={onTapItem}
+          didSelectItem={() => {}}
+          didAddToCart={() => {}}
+          didAddRemove={() => {}}
         />
       </View>
     </SafeAreaView>

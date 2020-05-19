@@ -2,51 +2,29 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Dimensions,
+  Image,
 } from "react-native";
 
 import { Text, Rating } from "react-native-elements";
 import AppButton from "../Buttons/AppButton";
-import ButtonAddRemove from "../Buttons/AddRemoveButton";
 
 import { urlImage } from "../../utils/AppConst";
 
 const deviceWidth = Math.round(Dimensions.get("window").width);
 
-const FoodCard = ({
-  size,
-  data,
-  onSelect,
-  disable = false,
-  onAddToCart,
-  canAdd = true,
-  didAddRemove,
-  cartItems,
-}) => {
-  const { item } = data;
-
-  const { _id, name, images, description, price, readyTime, category } = item;
-
-  let isAdded = false;
-  let currentQty = 1;
+const Restaurant = ({ size, data, onSelect, disable = false }) => {
+  const { name, images, address, foodType } = data.item;
 
   let image = urlImage(images[0]);
-
-  const didAddItem = () => {
-    onAddToCart();
-  };
-
-  const didRemoveItem = () => {};
 
   const mediumCard = () => {
     return (
       <View style={styles.root}>
-        <TouchableOpacity onPress={() => onSelect(item)}>
+        <TouchableOpacity onPress={() => onSelect(data)}>
           <Image style={styles.foodImage} source={{ uri: image }} />
         </TouchableOpacity>
-        <Text style={styles.title}>{name}</Text>
       </View>
     );
   };
@@ -55,15 +33,13 @@ const FoodCard = ({
     return (
       <TouchableOpacity
         style={smallStyles.smallCard}
-        onPress={() => onSelect(item)}
+        onPress={() => onSelect(data)}
         disabled={disable}
       >
         <Image style={smallStyles.foodImageSmall} source={{ uri: image }} />
         <View style={smallStyles.productInfo}>
           <Text style={smallStyles.title}>{name}</Text>
-          <Text style={smallStyles.resturentTitle}>
-            {category.toString().toUpperCase()}
-          </Text>
+          <Text style={smallStyles.resturentTitle}> Western Foods</Text>
           <Rating
             style={smallStyles.rating}
             type="heart"
@@ -71,43 +47,11 @@ const FoodCard = ({
             ratingCount={5}
             imageSize={20}
           />
+          <Text style={smallStyles.price}>{price}</Text>
         </View>
         <View style={smallStyles.shopView}>
-          <Text style={smallStyles.productSize}>₹{price}</Text>
-          {cartItems !== undefined &&
-            cartItems.map((item) => {
-              if (item.food._id.toString() === _id.toString()) {
-                isAdded = true;
-                currentQty = item.qty;
-              }
-            })}
-          {canAdd && !isAdded && (
-            <AppButton
-              title="Add"
-              width={70}
-              onTap={() => onAddToCart(data.item)}
-            />
-          )}
-
-          {isAdded && (
-            <View style={styles.countView}>
-              <ButtonAddRemove
-                title="-"
-                onTap={() => didAddRemove(item, --currentQty)}
-              />
-
-              <Text
-                h4
-                style={{ alignSelf: "center", margin: 5, fontWeight: "600" }}
-              >
-                {currentQty}
-              </Text>
-              <ButtonAddRemove
-                title="+"
-                onTap={() => didAddRemove(item, ++currentQty)}
-              />
-            </View>
-          )}
+          <Text style={smallStyles.productSize}>Large</Text>
+          <AppButton title="Buy" width={100} />
         </View>
       </TouchableOpacity>
     );
@@ -137,11 +81,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 220,
     width: deviceWidth - 30,
-    backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
-    backgroundColor: "#581845",
   },
   title: {
     fontSize: 14,
@@ -153,13 +95,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     color: "#636363",
-  },
-  countView: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 8,
   },
 });
 
@@ -178,14 +113,15 @@ const smallStyles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 22,
+    fontWeight: "600",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   resturentTitle: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "400",
     display: "flex",
     color: "#565555",
   },
@@ -213,7 +149,7 @@ const smallStyles = StyleSheet.create({
     justifyContent: "space-around",
   },
   shopView: {
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     padding: 10,
     alignItems: "center",
   },
@@ -224,4 +160,4 @@ const smallStyles = StyleSheet.create({
   },
 });
 
-export default FoodCard;
+export default Restaurant;

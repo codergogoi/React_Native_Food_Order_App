@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -9,24 +9,45 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Button } from "react-native-elements";
-import AppButton from "../components/Buttons/AppButton";
-import BackIcon from "../images/back_arrow.png";
-import { navigate } from "../utils/NavigationRef";
-import ProductListView from "../components/Listview/ProductListView";
+import BackIcon from "../../images/back_arrow.png";
+import ProductListView from "../../components/Listview/ProductListView";
+import { urlImage } from "../../utils/AppConst";
+
+import { Context as UserContext } from "../../dataStore/userAccessContext";
 
 const screenWidth = Dimensions.get("window").width;
 
-const ProductDetailScreen = ({ navigation }) => {
-  const { state } = navigation;
+const RestaurantDetails = ({ navigation }) => {
+  const { state, onAddToCart } = useContext(UserContext);
 
-  const { name, image, description, price } = state.params;
+  const { cartItems } = state;
+  const { params } = navigation.state;
 
-  const onTapAddToCard = () => {};
+  const {
+    name,
+    images,
+    description,
+    address,
+    foodType,
+    foods,
+    pincode,
+  } = params;
 
   const didTapBack = () => {
     navigation.goBack();
   };
 
+  const didSelectItem = (item) => {
+    console.log("Selected Item");
+  };
+
+  const didAddToCard = (item) => {
+    onAddToCart(item);
+  };
+
+  const didAddRemove = (item, qty) => {
+    onAddToCart(item, qty);
+  };
   return (
     <SafeAreaView style={styles.contentView} forceInset={{ top: "always" }}>
       <View style={styles.titleView}>
@@ -40,7 +61,7 @@ const ProductDetailScreen = ({ navigation }) => {
       <View style={styles.listView}>
         <ImageBackground
           source={{
-            uri: image,
+            uri: urlImage(images[0]),
           }}
           style={styles.coverImage}
         >
@@ -48,10 +69,28 @@ const ProductDetailScreen = ({ navigation }) => {
             <Text h3 style={styles.foodTitle}>
               {name}
             </Text>
+            <Text
+              style={{
+                fontSize: 25,
+                color: "#FFF",
+                fontWeight: "500",
+                marginTop: 10,
+              }}
+            >
+              {address}, {pincode}
+            </Text>
             <Text style={styles.foodDetails}>{description}</Text>
           </View>
         </ImageBackground>
-        <ProductListView size="small" disable={true} />
+        <ProductListView
+          size="small"
+          disable={false}
+          cartItems={cartItems}
+          foods={foods}
+          didSelectItem={didSelectItem}
+          didAddToCart={didAddToCard}
+          didAddRemove={didAddRemove}
+        />
       </View>
     </SafeAreaView>
   );
@@ -117,10 +156,10 @@ const styles = StyleSheet.create({
   },
 });
 
-ProductDetailScreen.navigationOptions = () => {
+RestaurantDetails.navigationOptions = () => {
   return {
     header: null,
   };
 };
 
-export default ProductDetailScreen;
+export default RestaurantDetails;

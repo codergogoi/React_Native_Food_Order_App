@@ -1,33 +1,31 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import FoodCard from "../Cards/FoodCard";
 
-const ProductListView = ({
-  foods,
+import Restaurant from "../../components/Cards/Restaurant";
+
+const TopRestaurants = ({
+  restaurants,
   size,
   horizontal,
   didSelectItem,
-  didAddToCart,
-  didAddRemove,
-  cartItems,
   disable,
 }) => {
+  const onSelectItem = ({ item }) => {
+    didSelectItem(item);
+  };
+
   return (
     <FlatList
       horizontal={horizontal ? true : false}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
-      data={foods}
-      renderItem={(item, i) => (
-        <FoodCard
-          key={`${i}`}
+      data={restaurants}
+      renderItem={(item) => (
+        <Restaurant
           size={size}
           data={item}
-          cartItems={cartItems}
           disable={disable}
-          onSelect={didSelectItem}
-          onAddToCart={didAddToCart}
-          didAddRemove={didAddRemove}
+          onSelect={onSelectItem}
         />
       )}
       keyExtractor={(item) => item._id}
@@ -35,4 +33,4 @@ const ProductListView = ({
   );
 };
 
-export default ProductListView;
+export default TopRestaurants;

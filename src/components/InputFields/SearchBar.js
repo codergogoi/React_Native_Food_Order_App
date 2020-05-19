@@ -1,10 +1,9 @@
 import React from "react";
-import { navigate } from "../utils/NavigationRef";
+import { navigate } from "../../utils/NavigationRef";
 import { View, StyleSheet, Image, TextInput } from "react-native";
+import SearchIcon from "../../images/search.png";
 
-import SearchIcon from "../images/search.png";
-
-const SearchBar = ({ didTouch, isHome }) => {
+const SearchBar = ({ didTouch, isHome, onTextChange, onEndEditing }) => {
   return (
     <View style={styles.root}>
       <View style={styles.searchBar}>
@@ -15,6 +14,8 @@ const SearchBar = ({ didTouch, isHome }) => {
           placeholder={"Search Foods"}
           onTouchStart={didTouch}
           autoFocus={!isHome}
+          onChangeText={onTextChange}
+          onEndEditing={onEndEditing}
         />
       </View>
     </View>

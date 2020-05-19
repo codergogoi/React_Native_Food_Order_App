@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Text, Input } from "react-native-elements";
-import AppButton from "../components/Buttons/AppButton";
-import { Context as UserContext } from "../context/userAccessContext";
-import UserLogin from "../components/UserLogin";
+import { Context as UserContext } from "../../dataStore/userAccessContext";
+import UserLogin from "../../components/InputFields/UserLogin";
 
 const SignupScreen = () => {
-  const { onSignup } = useContext(UserContext);
+  const { state, onSignup } = useContext(UserContext);
+
+  const { msg } = state;
 
   return (
     <SafeAreaView style={styles.contentView} forceInset={{ top: "always" }}>
@@ -16,6 +17,7 @@ const SignupScreen = () => {
       </View>
       <View style={styles.listView}>
         <UserLogin
+          isSignup={true}
           onSubmit={onSignup}
           route="Signin"
           linkText="Already Registred? Login Here"

@@ -1,16 +1,44 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { Input, Button } from "react-native-elements";
-import AppButton from "./Buttons/AppButton";
-import { navigate } from "../utils/NavigationRef";
+import AppButton from "../Buttons/AppButton";
+import { navigate } from "../../utils/NavigationRef";
 
 const Spacer = ({ children }) => {
   return <View style={styles.spacer}>{children}</View>;
 };
 
-const UserLogin = ({ onSubmit, route, linkText, title }) => {
+const UserLogin = ({ onSubmit, route, linkText, title, isSignup = false }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const addSignUpFields = () => {
+    if (isSignup) {
+      return (
+        <View>
+          <Spacer>
+            <Input
+              placeholder="First Name"
+              autoCapitalize={false}
+              autoCorrect={false}
+              onChangeText={setFirstName}
+            />
+          </Spacer>
+
+          <Spacer>
+            <Input
+              placeholder="Last Name"
+              autoCapitalize={false}
+              autoCorrect={false}
+              onChangeText={setLastName}
+            />
+          </Spacer>
+        </View>
+      );
+    }
+  };
 
   return (
     <View>
@@ -31,8 +59,13 @@ const UserLogin = ({ onSubmit, route, linkText, title }) => {
           onChangeText={setPassword}
         />
       </Spacer>
+      {addSignUpFields()}
       <Spacer />
-      <AppButton title={title} onTap={() => onSubmit({ email, password })} />
+      <AppButton
+        height={50}
+        title={title}
+        onTap={() => onSubmit({ email, password, firstName, lastName })}
+      />
       <Spacer>
         <Button
           titleStyle={styles.titleStyle}

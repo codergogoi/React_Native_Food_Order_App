@@ -9,34 +9,41 @@ import {
 
 import { Text, Badge, Button } from "react-native-elements";
 
-const deviceWidth = Math.round(Dimensions.get("window").width);
-
 import ButtonAddRemove from "../Buttons/AddRemoveButton";
 
 const CartItem = ({ data, onAddItem, onRemoveItem }) => {
-  const { name, image, description, price } = data.item;
+  const { food, qty } = data.item;
+  const { name, category, description, price } = food;
+
+  let currentQty = qty;
 
   return (
     <View style={styles.smallCard}>
       <View style={styles.productInfo}>
         <Text style={styles.title}>{name}</Text>
-        <Text style={styles.resturentTitle}>Western Foods</Text>
-        <Text style={styles.foodDescription}>
-          Spring Onion, Crispy Chicken, Chees, baby Corn
+        <Text style={styles.resturentTitle}>
+          {category.toString().toUpperCase()}
         </Text>
+        <Text style={styles.foodDescription}>{description}</Text>
       </View>
       <View style={styles.priceView}>
-        <Text style={styles.price}>$ 2.99</Text>
+        <Text style={styles.price}>₹{price}</Text>
         <View style={styles.countView}>
-          <ButtonAddRemove title="-" onPress={() => onAddItem(data)} />
+          <ButtonAddRemove
+            title="-"
+            onTap={() => onAddItem(food, --currentQty)}
+          />
 
           <Text
             h4
             style={{ alignSelf: "center", margin: 5, fontWeight: "600" }}
           >
-            2
+            {currentQty}
           </Text>
-          <ButtonAddRemove title="+" onPress={() => onRemoveItem(data)} />
+          <ButtonAddRemove
+            title="+"
+            onTap={() => onRemoveItem(food, ++currentQty)}
+          />
         </View>
       </View>
     </View>
@@ -69,14 +76,16 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 22,
-    fontWeight: "600",
+    fontWeight: "300",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   resturentTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "600",
+    marginTop: 4,
+    marginBottom: 4,
     display: "flex",
     color: "#565555",
   },

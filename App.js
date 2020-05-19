@@ -3,24 +3,24 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Image, StyleSheet } from "react-native";
-
-import { Provider as UserProvider } from "./src/context/userAccessContext";
-
+import { Provider as UserProvider } from "./src/dataStore/userAccessContext";
 /**
  * Screens
  */
 import AuthCheckScreen from "./src/screens/AuthCheckScreen";
-import AccountScreen from "./src/screens/AccountScreen";
-import CartScreen from "./src/screens/CartScreen";
-import HomeScreen from "./src/screens/HomeScreen";
-import OfferScreen from "./src/screens/OffersScreen";
-import SearchScreen from "./src/screens/SearchScreen";
-import SigninScreen from "./src/screens/SigninScreen";
-import SignupScreen from "./src/screens/SignupScreen";
+import AccountScreen from "./src/screens/user/AccountScreen";
+import CartScreen from "./src/screens/shoping/CartScreen";
+import HomeScreen from "./src/screens/home/HomeScreen";
+import OfferScreen from "./src/screens/home/OffersScreen";
+import SearchScreen from "./src/screens/home/SearchScreen";
+import SigninScreen from "./src/screens/user/SigninScreen";
+import SignupScreen from "./src/screens/user/SignupScreen";
 import { setNavigator } from "./src/utils/NavigationRef";
-import OrderScreen from "./src/screens/OrderScreen";
-import PaymentScreen from "./src/screens/PaymentScreen";
-import ProductDetailScreen from "./src/screens/ProductDetailScreen";
+import OrderScreen from "./src/screens/shoping/OrderScreen";
+import OrderDetailScreen from "./src/screens/shoping/OrderDetails";
+import PaymentScreen from "./src/screens/shoping/PaymentScreen";
+import FoodDetails from "./src/screens/foods/FoodDetails";
+import RestaurantDetailScreen from "./src/screens/foods/RestaurantDetails";
 
 const switchNavigator = createSwitchNavigator({
   authCheck: AuthCheckScreen,
@@ -29,7 +29,8 @@ const switchNavigator = createSwitchNavigator({
       screen: createStackNavigator({
         TopProducts: HomeScreen,
         Search: SearchScreen,
-        ProductDetail: ProductDetailScreen,
+        ProductDetail: FoodDetails,
+        RestaurantDetail: RestaurantDetailScreen,
       }),
       navigationOptions: {
         tabBarOptions: {
@@ -64,6 +65,7 @@ const switchNavigator = createSwitchNavigator({
         Shoping: CartScreen,
         Order: OrderScreen,
         Payment: PaymentScreen,
+        OrderDetails: OrderDetailScreen,
       }),
       navigationOptions: {
         tabBarOptions: {
@@ -96,8 +98,8 @@ const switchNavigator = createSwitchNavigator({
   }),
   loginStack: {
     screen: createStackNavigator({
-      Signup: SignupScreen,
       Signin: SigninScreen,
+      Signup: SignupScreen,
     }),
     navigationOptions: {
       tabBarIcon: ({ focused, tintColor }) => {
