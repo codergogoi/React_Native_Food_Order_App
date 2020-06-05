@@ -23,6 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Online Food Order Application built using React Native",
+    "githubUrl": "https://github.com/codergogoi/React_Native_Food_Order_App"
   }
 }
